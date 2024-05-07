@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  surreal-db:
+    container_name: surreal-db
+    image: surrealdb/surrealdb:latest
+    volumes:
+      - ./data:/data
+    env_file:
+      - .env
+    entrypoint:
+      - /surreal
+      - start
+      - --auth
+      - --username
+      - $SURREAL_USER
+      - --password
+      - $SURREAL_PASSWORD
+#      - --namespace
+#      - $SURREAL_NAMESPACE
+#      - --db
+#      - $SURREAL_DB
+#      - --log
+#      - trace
+      - file:/data/database.db
+    ports:
+      - "8000:8000"
+    restart: always
+
+  rust-tera:
+    container_name: rust-tera
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - surreal-db
+
+volumes:
+  data:

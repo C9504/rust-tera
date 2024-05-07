@@ -14,9 +14,8 @@ async fn welcome() -> HttpResponse {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let db = Database::init("127.0.0.1:8000", "negrdo", "rust_tera")
-        .await
-        .expect("Database Connection error");
+    env_logger::init();
+    let db = Database::init().await.expect("Database Connection error");
     let db = Data::new(db);
 
     let tera = match Tera::new("templates/**/*.html") {
