@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Edit User{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Users</h1>
+    <p>Here are all the users.</p>
+    <form action="/web/users/{{user.uuid}}/edit" method="post" accept-charset="UTF-8">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" name="name" value="{{user.name}}" class="form-control" id="name" placeholder="Jhon Doe">
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Email address</label>
+            <input type="email" name="username" value="{{user.username}}" class="form-control" id="username" placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Email address</label>
+            <input type="number" name="age" value="{{user.age}}" class="form-control" id="age" placeholder="25">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% if updated %}
+    <div class="alert alert-success mt-5" role="alert">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer
+            so that you can see how spacing within an alert works with this kind of content.</p>
+        <hr>
+        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

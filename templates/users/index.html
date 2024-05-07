@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Users</h1>
+        <p>Here are all the users.</p>
+        <a href="/web/users/create" class="btn btn-primary">Create</a>
+        <table class="table table-sm table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.uuid }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.age }}</td>
+                <td><a href="/web/users/{{ user.uuid }}/edit" class="btn btn-link">Edit</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
