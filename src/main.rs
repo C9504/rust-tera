@@ -1,11 +1,12 @@
 extern crate tera;
 
-use actix_web::{App, get, HttpResponse, HttpServer, web};
-use actix_web::web::Data;
+use actix_web::{App, get, HttpResponse, HttpServer, middleware, web};
+use actix_web::web::{Data};
 use tera::{Tera};
 use rust_tera::database::Database;
 
 mod views;
+mod resources;
 
 #[get("/")]
 async fn welcome() -> HttpResponse {
@@ -28,12 +29,17 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
+            .wrap(middleware::Logger::default())
             .app_data(Data::new(tera.clone()))
             .app_data(db.clone())
             .service(views::statics::read_static)
             .service(
                 web::scope("/web")
                     .configure(views::users::config),
+            )
+            .service(
+                web::scope("/api")
+                    .configure(resources::api::config),
             )
             .service(welcome)
             .route("/", web::get())

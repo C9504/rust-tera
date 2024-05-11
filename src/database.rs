@@ -3,7 +3,6 @@ use dotenvy::dotenv;
 use surrealdb::engine::remote::ws::{Client, Ws};
 use surrealdb::{Error, Surreal};
 use surrealdb::opt::auth::Root;
-//use surrealdb::opt::auth::Root;
 
 #[derive(Clone)]
 pub struct Database {

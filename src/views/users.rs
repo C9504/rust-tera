@@ -14,7 +14,6 @@ pub async fn get_users(tera: Data<Tera>, db: Data<Database>) -> HttpResponse {
     match result {
         Ok(rows) => {
             users = Some(rows).unwrap();
-            println!("UUID: {:?}", users);
         }
         Err(..) => println!("Error to get users"),
     }

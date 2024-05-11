@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Users{% endblock %}
+{% block styles %}
+<link href="/static/Datatables/datatables.min.css" rel="stylesheet">
+<!--<link href="/static/Datatables/Buttons-3.0.2/css/buttons.bootstrap.min.css" rel="stylesheet">-->
+{% endblock %}
 {% block content %}
 <div class="container">
     <h1>Users</h1>
@@ -15,7 +19,7 @@
             <th>Actions</th>
         </tr>
         </thead>
-        <tbody>
+        <!--<tbody>
         {% for user in users %}
         <tr>
             <td>{{ user.uuid }}</td>
@@ -25,19 +29,44 @@
             <td><a href="/web/users/{{ user.uuid }}/edit" class="btn btn-link">Edit</a></td>
         </tr>
         {% endfor %}
-        </tbody>
+        </tbody>-->
     </table>
 </div>
 {% endblock %}
 {% block scripts %}
+<script src="/static/Datatables/datatables.min.js"></script>
+<!--<script src="/static/Datatables/DataTables-2.0.7/js/dataTables.min.js"></script>-->
+<!--<script src="/static/Datatables/Buttons-3.0.2/js/buttons.dataTables.min.js"></script>-->
 <script>
+    let table;
     $(document).ready(function () {
-        $('#dataTable').DataTable({
-            responsive: true,
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-            layout: {
-                topStart: 'buttons'
-            }
+        table = $('#dataTable').DataTable({
+            // dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    //className: 'btn btn-sm btn-danger mb-3',
+                    exportOptions: {
+                        modifiers: {
+                            page: 'all',
+                        },
+                        columns: [1, 2, 3, 4]
+                    },
+                    title: 'Users',
+                    filename: 'users',
+                },
+            ],
+            ajax: '/api/users',
+            columns: [
+                {data: 'uuid'},
+                {data: 'name'},
+                {data: 'username'},
+                {data: 'age'},
+                {data: 'uuid', render: function (data) {
+                    return `<a href="/web/users/${data}/edit" class="btn btn-link">Edit</a>`
+                }},
+            ]
         });
     })
 </script>
